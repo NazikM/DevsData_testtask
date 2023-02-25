@@ -9,6 +9,8 @@ urlpatterns = [
     path('booking/api/', include('booking.api.urls')),
     path('event/api', include('events.api.urls')),
     path('event', include('events.urls')),
+
+    path('api-auth/', include('rest_framework.urls'))
 ]
 
 if settings.DEBUG:
