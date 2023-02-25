@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <h1>Booking List</h1>
+
+    <ul>
+    {% for booking in bookings %}
+        <li>
+            <strong>{{ booking.event.title }}</strong>
+            <br>
+            Start date - {{ booking.event.start_date }}
+            <br>
+            {% if booking.canceled %}
+                <span class="badge badge-danger">Cancelled</span>
+            {% else %}
+                <a href="{% url 'cancel_booking' booking.registration_code %}">Cancel</a>
+            {% endif %}
+
+        </li>
+    {% empty %}
+        <li>No bookings found.</li>
+    {% endfor %}
+    </ul>
+
+    <h2>Create a New Booking</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.event.label_tag }}
+            {{ form.event }}
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+{% endblock %}
